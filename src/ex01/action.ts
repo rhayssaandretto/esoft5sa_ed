@@ -1,4 +1,5 @@
 import { ActionType } from "./actionType";
+import { Product } from "./product";
 
 export class Action {
   private readonly _date: Date = new Date();

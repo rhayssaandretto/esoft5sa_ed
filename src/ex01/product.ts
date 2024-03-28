@@ -1,4 +1,5 @@
-class Product {
+
+export class Product {
   private _name: string;
   private _price: number;
   private _quantity: number;
@@ -20,6 +21,5 @@ class Product {
   public get quantity(): number {
     return this._quantity;
   }
-
   
 }
