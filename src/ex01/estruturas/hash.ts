@@ -27,11 +27,12 @@ export class HashTable {
     public search(product: Product): Product | null {
         const index = this.generateHash(product.name);
 
-        if (this.products[index]) {
-            return this.products[index].search(product)!.data;
+        if (!this.products[index]) {
+            return null;
         }
 
-        return null;
+        const foundProduct = this.products[index].search(product);
+        return foundProduct ? foundProduct.data : null;
     }
 
     public delete(product: Product): void {
