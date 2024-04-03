@@ -1,5 +1,6 @@
 import { Action } from "./action";
 import { ActionType } from "./actionType";
+import { HashTable } from "./estruturas/hash";
 import { Stack } from "./estruturas/stack";
 import { Product } from "./product";
 
@@ -20,3 +21,12 @@ stack.push(action3);
 stack.push(action4);
 
 stack.show();
+
+const table = new HashTable(10);
+table.insert(product);
+table.insert(product2);
+table.insert(product3);
+
+console.log(table.search(product));
+console.log(table.search(product2));
+console.log(table.search(product3));
