@@ -2,8 +2,8 @@ import { Contact } from "../contact";
 
 export class TreeNode {
   contact: Contact;
-  leftNode: any;
-  rightNode: any;
+  leftNode?: any;
+  rightNode?: any;
   height: number;
 
   constructor(contact: Contact) {
