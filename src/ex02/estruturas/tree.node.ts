@@ -10,6 +10,6 @@ export class TreeNode {
     this.contact = contact;
     this.leftNode = null;
     this.rightNode = null;
-    this.height = 1;
+    this.height = 0;
   }
 }

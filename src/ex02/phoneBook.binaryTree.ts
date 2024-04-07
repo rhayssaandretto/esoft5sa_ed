@@ -9,27 +9,29 @@ export class PhoneBookBinarySearchTree {
   }
 
   public insert(contact: Contact) {
-    if (!this.root) {
-      this.root = new TreeNode(contact);
-      // console.log(this.root);
-    } else {
-      this.root = this.insertNode(this.root, contact);
-      // console.log("Else", this.root);
-    }
+    this.root
+      ? (this.root = this.insertNode(this.root, contact))
+      : (this.root = new TreeNode(contact));
   }
 
-  public insertNode(treeNode: TreeNode | null, contact: Contact) {
-    if (treeNode === null) return new TreeNode(contact);
-    if (contact.name < treeNode.contact.name) {
-      treeNode.leftNode = this.insertNode(treeNode.leftNode, contact);
-    } else if (contact.name > treeNode.contact.name) {
-      treeNode.rightNode = this.insertNode(treeNode.rightNode, contact);
+  public insertNode(root: TreeNode | null, contact: Contact) {
+    if (root === null) return new TreeNode(contact);
+
+    if (contact.name < root.contact.name) {
+      root.leftNode = this.insertNode(root.leftNode, contact);
+    } else if (contact.name > root.contact.name) {
+      root.rightNode = this.insertNode(root.rightNode, contact);
+    } else {
+      console.log("Contato já existe");
+      return root;
     }
-    treeNode.height = this.compareHeight(
-      this.calculateNodeHeight(treeNode.leftNode),
-      this.calculateNodeHeight(treeNode.rightNode)
-    );
-    return this.balance(treeNode);
+
+    const leftHeight = root.leftNode ? root.leftNode.height : 0;
+    const rightHeight = root.rightNode ? root.rightNode.height : 0;
+    root.height = Math.max(leftHeight, rightHeight) + 1;
+    const balanceFactor = this.getBalanceFactor(root);
+    console.log("Fator de balanceamento: ", balanceFactor);
+    return this.balance(root);
   }
 
   public compareHeight(height1: number, height2: number): number {
@@ -37,35 +39,37 @@ export class PhoneBookBinarySearchTree {
     return height1 > height2 ? height1 : height2;
   }
 
-  public calculateNodeHeight(treeNode: TreeNode): number {
-    if (treeNode === null) return -1;
-    return treeNode.height;
+  public calculateNodeHeight(treeNode: TreeNode): [number, number] {
+    if (treeNode === null) return [0, 0];
+
+    const leftHeight = treeNode.leftNode ? treeNode.leftNode.height : 0;
+    const rightHeight = treeNode.rightNode ? treeNode.rightNode.height : 0;
+
+    return [leftHeight, rightHeight];
   }
 
   public getBalanceFactor(treeNode: TreeNode): number {
-    if (treeNode == null) return 0;
-    if (treeNode)
-      return (
-        this.calculateNodeHeight(treeNode.leftNode) -
-        this.calculateNodeHeight(treeNode.rightNode)
-      );
-    return 0;
+    if (treeNode == null) return -1;
+    const [leftHeight, rightHeight] = this.calculateNodeHeight(treeNode);
+    const balanceFactor = leftHeight - rightHeight;
+
+    return balanceFactor;
   }
 
   public rotateLeft(treeNode: TreeNode): TreeNode | null {
-    const rightNode = treeNode.rightNode; //y
-    const rightLeftNode = rightNode.leftNode; //f
-    rightNode.leftNode = treeNode; //r
-    treeNode.rightNode = rightLeftNode; //f
+    const rightNode = treeNode.rightNode;
+    const rightLeftNode = rightNode.leftNode;
+    rightNode.leftNode = treeNode;
+    treeNode.rightNode = rightLeftNode;
 
-    treeNode.height = this.compareHeight(
-      this.calculateNodeHeight(treeNode.leftNode),
-      this.calculateNodeHeight(treeNode.rightNode) + 1
-    );
-    rightNode.height = this.compareHeight(
-      this.calculateNodeHeight(rightNode.leftNode),
-      this.calculateNodeHeight(rightNode.rightNode) + 1
-    );
+    const leftHeight = treeNode.leftNode ? treeNode.leftNode.height : 0;
+    const rightHeight = treeNode.rightNode ? treeNode.rightNode.height : 0;
+    treeNode.height = Math.max(leftHeight, rightHeight) + 1;
+
+    const leftHeightR = rightNode.leftNode ? rightNode.leftNode.height : 0;
+    const rightHeightR = rightNode.rightNode ? rightNode.rightNode.height : 0;
+    rightNode.height = Math.max(leftHeightR, rightHeightR) + 1;
+
     console.log("Fiz a rotação para esquerda");
     return rightNode;
   }
@@ -73,17 +77,17 @@ export class PhoneBookBinarySearchTree {
   public rotateRight(treeNode: TreeNode): TreeNode | null {
     const leftNode = treeNode.leftNode;
     const leftRightNode = leftNode.rightNode;
-    leftNode.leftNode = treeNode;
+    leftNode.rightNode = treeNode;
     treeNode.leftNode = leftRightNode;
 
-    treeNode.height = this.compareHeight(
-      this.calculateNodeHeight(treeNode.leftNode),
-      this.calculateNodeHeight(treeNode.rightNode) + 1
-    );
-    leftNode.height = this.compareHeight(
-      this.calculateNodeHeight(leftNode.leftNode),
-      this.calculateNodeHeight(leftNode.rightNode) + 1
-    );
+    const leftHeight = treeNode.leftNode ? treeNode.leftNode.height : 0;
+    const rightHeight = treeNode.rightNode ? treeNode.rightNode.height : 0;
+    treeNode.height = Math.max(leftHeight, rightHeight) + 1;
+
+    const leftHeightL = leftNode.leftNode ? leftNode.leftNode.height : 0;
+    const rightHeightL = leftNode.rightNode ? leftNode.rightNode.height : 0;
+    leftNode.height = Math.max(leftHeightL, rightHeightL) + 1;
+
     console.log("Fiz a rotação para direita");
     return leftNode;
   }
@@ -91,17 +95,18 @@ export class PhoneBookBinarySearchTree {
   public rotateLeftRight(treeNode: TreeNode): TreeNode | null {
     if (treeNode.leftNode === null) return null;
     treeNode.leftNode = this.rotateLeft(treeNode.leftNode);
+    console.log("Fiz a rotação dupla Esquerda-Direita");
     return this.rotateRight(treeNode);
   }
 
   public rotateRightLeft(treeNode: TreeNode): TreeNode | null {
     if (treeNode.rightNode === null) return null;
-    treeNode.rightNode = this.rotateLeft(treeNode.rightNode);
-    return this.rotateRight(treeNode);
+    treeNode.rightNode = this.rotateRight(treeNode.rightNode);
+    console.log("Fiz a rotação dupla Direita-Esquerda");
+    return this.rotateLeft(treeNode);
   }
 
   public balance(root: TreeNode) {
-    // root.height = this.compareHeight(root);
     if (this.root == null) return null;
     const getBalanceFactor = this.getBalanceFactor(root);
     if (getBalanceFactor < -1 && this.getBalanceFactor(root.rightNode) <= 0)
@@ -117,6 +122,8 @@ export class PhoneBookBinarySearchTree {
 
   public removeContact(root: TreeNode, contact: Contact) {
     if (root === null) return null;
+    if (!(root instanceof TreeNode)) return null;
+    const [leftHeight, rightHeight] = this.calculateNodeHeight(root);
     if (contact.name === root.contact.name) {
       if (root.leftNode == null && root.rightNode == null) {
         console.log(`Elemento folha removido: ${contact.name}`);
@@ -126,7 +133,7 @@ export class PhoneBookBinarySearchTree {
           while (aux.rightNode != null) aux = aux.rightNode;
           root.contact = aux.contact;
           aux.contact = contact;
-          console.log(`Elemento trocado: ${contact}`);
+          console.log(`Elemento trocado: ${contact.name}`);
           root.leftNode = this.removeContact(root.leftNode, contact);
         } else {
           let aux;
@@ -135,7 +142,7 @@ export class PhoneBookBinarySearchTree {
           } else {
             aux = root.rightNode;
           }
-          console.log(`Elemento com um filho removido: ${contact}`);
+          console.log(`Elemento com um filho removido: ${contact.name}`);
           return aux;
         }
       }
@@ -145,10 +152,7 @@ export class PhoneBookBinarySearchTree {
       } else {
         root.rightNode = this.removeContact(root.rightNode, contact);
       }
-      root.height = this.compareHeight(
-        this.calculateNodeHeight(root.leftNode),
-        this.calculateNodeHeight(root.rightNode) + 1
-      );
+      root.height = this.compareHeight(leftHeight, rightHeight) + 1;
       return this.balance(root);
     }
   }
