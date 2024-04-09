@@ -7,7 +7,7 @@ export class BinarySearchTree {
     this.root = null;
   }
 
-  public insert(word: string): void {
+  public insert(word: string) {
     const newWordNode = new TreeNode(word.toLowerCase());
 
     if (!this.root) {
@@ -17,15 +17,15 @@ export class BinarySearchTree {
     }
   }
 
-  public insertNode(treeNode: TreeNode, newTreeNode: TreeNode): void {
+  public insertNode(treeNode: TreeNode, newTreeNode: TreeNode) {
+    if (!treeNode) {
+      return newTreeNode;
+    }
+
     if (newTreeNode.word < treeNode.word) {
-      if (treeNode.leftNode) {
-        treeNode.leftNode = this.insertNode(treeNode.leftNode, newTreeNode);
-      }
+      treeNode.leftNode = this.insertNode(treeNode.leftNode, newTreeNode);
     } else {
-      if (treeNode.rightNode) {
-        treeNode.rightNode = this.insertNode(treeNode.rightNode, newTreeNode);
-      }
+      treeNode.rightNode = this.insertNode(treeNode.rightNode, newTreeNode);
     }
   }
 
@@ -33,7 +33,6 @@ export class BinarySearchTree {
     if (!this.root) {
       return null;
     }
-
     return this.searchNode(this.root, word.toLowerCase());
   }
 
@@ -42,11 +41,20 @@ export class BinarySearchTree {
       return null;
     }
 
-    if (word === treeNode.word) {
+    console.log(
+      "word",
+      word,
+      treeNode.word,
+      word === treeNode.word.toLowerCase()
+    );
+
+    if (word === treeNode.word.toLowerCase()) {
+      console.log("é igual");
+
       return word;
     }
 
-    if (word < treeNode.word) {
+    if (word < treeNode.word.toLowerCase()) {
       return this.searchNode(treeNode.leftNode, word);
     } else {
       return this.searchNode(treeNode.rightNode, word);

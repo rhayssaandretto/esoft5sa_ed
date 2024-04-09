@@ -1,7 +1,20 @@
+// import { Dictionary } from "./dictionary";
+
+// const dicionario = new Dictionary()
+//  dicionario.buildDictionary();
+
+// const search = 'maiúsculas';
+// console.log(dicionario.searchDictionary(search));
 import { Dictionary } from "./dictionary";
 
-const dicionario = new Dictionary()
-dicionario.buildDictionary();
+async function main() {
+  const dicionario = new Dictionary();
+  await dicionario.buildDictionary();
 
-const search = 'cassia';
-dicionario.searchDictionary(search);
+  console.log(dicionario);
+  
+
+  const search = 'e';
+  console.log(dicionario.searchDictionary(search));
+}
+main()
