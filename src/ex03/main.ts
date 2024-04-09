@@ -14,7 +14,7 @@ async function main() {
   console.log(dicionario);
   
 
-  const search = 'e';
+  const search = 'pé';
   console.log(dicionario.searchDictionary(search));
 }
 main()

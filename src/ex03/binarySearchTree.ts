@@ -17,16 +17,29 @@ export class BinarySearchTree {
     }
   }
 
-  public insertNode(treeNode: TreeNode, newTreeNode: TreeNode) {
-    if (!treeNode) {
-      return newTreeNode;
-    }
-
-    if (newTreeNode.word < treeNode.word) {
-      treeNode.leftNode = this.insertNode(treeNode.leftNode, newTreeNode);
+  public insertNode(node: TreeNode, newNode: TreeNode) {
+    if (newNode.word < node.word) {
+      if (node.leftNode === null) {
+        node.leftNode = newNode;
+      } else {
+        this.insertNode(node.leftNode, newNode);
+      }
     } else {
-      treeNode.rightNode = this.insertNode(treeNode.rightNode, newTreeNode);
+      if (node.rightNode === null) {
+        node.rightNode = newNode;
+      } else {
+        this.insertNode(node.rightNode, newNode);
+      }
     }
+    // if (!treeNode) {
+    //   return newTreeNode;
+    // }
+
+    // if (newTreeNode.word < treeNode.word) {
+    //   treeNode.leftNode = this.insertNode(treeNode.leftNode, newTreeNode);
+    // } else {
+    //   treeNode.rightNode = this.insertNode(treeNode.rightNode, newTreeNode);
+    // }
   }
 
   public search(word: string): string | null {

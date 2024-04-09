@@ -40,6 +40,7 @@ export class Dictionary {
 
   public async buildDictionary() {
     const words = await this.readFile();
+    console.log(words);
     for (const word of words) {
       this.bst.insert(word);
     }
