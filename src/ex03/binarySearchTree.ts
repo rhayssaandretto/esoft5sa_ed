@@ -31,15 +31,6 @@ export class BinarySearchTree {
         this.insertNode(node.rightNode, newNode);
       }
     }
-    // if (!treeNode) {
-    //   return newTreeNode;
-    // }
-
-    // if (newTreeNode.word < treeNode.word) {
-    //   treeNode.leftNode = this.insertNode(treeNode.leftNode, newTreeNode);
-    // } else {
-    //   treeNode.rightNode = this.insertNode(treeNode.rightNode, newTreeNode);
-    // }
   }
 
   public search(word: string): string | null {
@@ -61,13 +52,13 @@ export class BinarySearchTree {
       word === treeNode.word.toLowerCase()
     );
 
-    if (word === treeNode.word.toLowerCase()) {
+    if (word === treeNode.word) {
       console.log("é igual");
 
       return word;
     }
 
-    if (word < treeNode.word.toLowerCase()) {
+    if (word < treeNode.word) {
       return this.searchNode(treeNode.leftNode, word);
     } else {
       return this.searchNode(treeNode.rightNode, word);

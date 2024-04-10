@@ -9,28 +9,13 @@ export class Dictionary {
     this.bst = new BinarySearchTree();
   }
 
-  //   public readFile(): any {
-  //     fs.readFile(this.fileName, "utf8", (err, data) => {
-  //       if (err) {
-  //         console.error(`Erro ao ler o arquivo ${this.fileName}`, err);
-  //       }
-  //       const words = this.splitWords(data);
-  //       return words;
-  //     });
-  //   }
-
-  public readFile(): Promise<string[]> {
-    return new Promise((resolve, reject) => {
-      fs.readFile(this.fileName, "utf8", (err, data) => {
-        if (err) {
-          console.error(`Erro ao ler o arquivo ${this.fileName}`, err);
-          reject(err);
-        } else {
-          const words = this.splitWords(data);
-          resolve(words);
-        }
-      });
-    });
+  public readFile(): any {
+    try {
+      const data = fs.readFileSync(this.fileName, "utf-8");
+      return this.splitWords(data);
+    } catch (error) {
+      console.error(`Erro ao ler o arquivo ${this.fileName}`, error);
+    }
   }
 
   public splitWords(data: string): string[] {
@@ -40,7 +25,6 @@ export class Dictionary {
 
   public async buildDictionary() {
     const words = await this.readFile();
-    console.log(words);
     for (const word of words) {
       this.bst.insert(word);
     }
