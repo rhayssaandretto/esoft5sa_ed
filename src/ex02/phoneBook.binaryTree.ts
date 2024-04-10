@@ -120,6 +120,17 @@ export class PhoneBookBinarySearchTree {
     return root;
   }
 
+  public search(root: TreeNode, contact: Contact): string | null {
+    if (root === null) return null;
+    if (contact.name === root.contact.name) {
+      return root.contact.name;
+    } else if (contact.name < root.contact.name) {
+      return this.search(root.leftNode, contact);
+    } else {
+      return this.search(root.rightNode, contact);
+    }
+  }
+
   public removeContact(root: TreeNode, contact: Contact) {
     if (root === null) return null;
     if (!(root instanceof TreeNode)) return null;
