@@ -40,7 +40,9 @@ export class PhoneBookBinarySearchTree {
 
   public calculateNodeHeight(treeNode: TreeNode) {
     if (treeNode === null) return -1;
-    return treeNode.height;
+    else {
+      return treeNode?.height;
+    }
   }
 
   public getBalanceFactor(treeNode: TreeNode): number {
