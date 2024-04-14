@@ -23,11 +23,11 @@ if (phoneBook.root !== null) {
   console.log("A árvore está vazia.");
 }
 
-const contactToRemove = new Contact("GGGGG", "123456");
+const contactToRemove = new Contact("Gabriel", "123456");
 console.log(`Removendo o contato ${contactToRemove.name} da árvore:`);
 const root = phoneBook.getRoot();
 if (root !== null) phoneBook.removeContact(root, contactToRemove);
-console.log("A árvore está vazia");
+else console.log("Árvore vazia");
 
 if (phoneBook.root !== null) {
   console.log("Árvore balanceada após a remoção:");
@@ -39,18 +39,14 @@ if (phoneBook.root !== null) {
 if (root) {
   console.log(
     "Resultado encontrado:",
-    phoneBook.search(root, new Contact("10", "123456"))
+    phoneBook.search(root, new Contact("Alice", "123456"))
   );
   console.log(
     "Resultado encontrado:",
-    phoneBook.search(root, new Contact("20", "123456"))
+    phoneBook.search(root, new Contact("Italo", "123456"))
   );
   console.log(
     "Resultado encontrado:",
-    phoneBook.search(root, new Contact("30", "123456"))
-  );
-  console.log(
-    "Resultado encontrado:",
-    phoneBook.search(root, new Contact("15", "123456"))
+    phoneBook.search(root, new Contact("Cassia", "123456"))
   );
 }

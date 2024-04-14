@@ -25,7 +25,7 @@ export class PhoneBookVector {
 
   public searchContact(name: string): string | undefined {
     const foundContact = this.contacts.find((contact) => contact.name === name);
-    return `${foundContact?.name} - ${foundContact?.phoneNumber}`;
+    return `Nome: ${foundContact?.name} - Telefone: ${foundContact?.phoneNumber}`;
   }
 
   public printContact(): void {
