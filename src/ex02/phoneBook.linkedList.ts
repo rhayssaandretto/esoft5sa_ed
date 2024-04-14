@@ -8,15 +8,36 @@ export class PhoneBookLinkedList {
     this.start = null;
   }
 
+  // public addContact(contact: Contact): void {
+  //   const newNode = new ListNode(contact);
+
+  //   if (!this.start) this.start = newNode;
+  //   else {
+  //     let currentNode = this.start;
+  //     while (currentNode.next !== null) currentNode = currentNode.next;
+  //     currentNode.next = newNode;
+  //   }
+  // }
+
   public addContact(contact: Contact): void {
     const newNode = new ListNode(contact);
 
-    if (!this.start) this.start = newNode;
-    else {
-      let currentNode = this.start;
-      while (currentNode.next !== null) currentNode = currentNode.next;
-      currentNode.next = newNode;
+    if (!this.start || contact.name < this.start.contact.name) {
+      newNode.next = this.start;
+      this.start = newNode;
+      return;
     }
+
+    let currentNode = this.start;
+    while (
+      currentNode.next !== null &&
+      currentNode.next.contact.name < contact.name
+    ) {
+      currentNode = currentNode.next;
+    }
+
+    newNode.next = currentNode.next;
+    currentNode.next = newNode;
   }
 
   public removeContact(name: string): string | null {
