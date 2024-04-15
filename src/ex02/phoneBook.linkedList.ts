@@ -8,40 +8,71 @@ export class PhoneBookLinkedList {
     this.start = null;
   }
 
+  // public addContact(contact: Contact): void {
+  //   const newNode = new ListNode(contact);
+
+  //   if (!this.start) this.start = newNode;
+  //   else {
+  //     let currentNode = this.start;
+  //     while (currentNode.next !== null) currentNode = currentNode.next;
+  //     currentNode.next = newNode;
+  //   }
+  // }
+
   public addContact(contact: Contact): void {
     const newNode = new ListNode(contact);
 
-    if (!this.start) this.start = newNode;
-    else {
-      let currentNode = this.start;
-      while (currentNode.next !== null) currentNode = currentNode.next;
-      currentNode.next = newNode;
+    if (!this.start || contact.name < this.start.contact.name) {
+      newNode.next = this.start;
+      this.start = newNode;
+      return;
     }
+
+    let currentNode = this.start;
+    while (
+      currentNode.next !== null &&
+      currentNode.next.contact.name < contact.name
+    ) {
+      currentNode = currentNode.next;
+    }
+
+    newNode.next = currentNode.next;
+    currentNode.next = newNode;
   }
 
-  public removeContact(name: string): void {
-    if (!this.start) throw new Error("Não há contatos na lista");
+  public removeContact(name: string): string | null {
+    if (!this.start) return `Não há contato para remover.`;
     if (this.start.contact.name === name) {
       this.start = this.start.next;
-      return;
+      return `Contato removido com sucesso`;
     }
     let currentNode = this.start;
     while (currentNode.next !== null) {
       if (currentNode.next.contact.name === name) {
         currentNode.next = currentNode.next.next;
-        return;
+        return `Contato removido com sucesso!`;
       }
       currentNode = currentNode.next;
     }
-    throw new Error("Contato não encontrado");
+    return null;
   }
 
-  public searchContact(name: string): Contact | undefined {
+  public searchContact(name: string): Contact | null | string {
     let currentNode = this.start;
     while (currentNode !== null) {
-      if (currentNode.contact.name === name) return currentNode.contact;
+      if (currentNode.contact.name === name) return currentNode.contact.name;
       currentNode = currentNode.next;
     }
-    throw new Error("Contato não encontrado");
+    return null;
+  }
+
+  public printLinkedList(): void {
+    let currentNode = this.start;
+    while (currentNode !== null) {
+      console.log(
+        `${currentNode.contact.name} : ${currentNode.contact.phoneNumber}`
+      );
+      currentNode = currentNode.next;
+    }
   }
 }
