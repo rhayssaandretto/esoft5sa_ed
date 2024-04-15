@@ -27,14 +27,11 @@ export class Dictionary {
     const words = await this.readFile();
     for (const word of words) {
       this.bst.insert(word);
-      console.log(`Palavra "${word}" inserida na árvore.`);
     }
-    console.log("Árvore construída:", this.bst);
   }
 
   public searchDictionary(word: string) {
     const search = this.bst.search(word.toLowerCase());
-    console.log("search", search);
 
     return search;
   }
