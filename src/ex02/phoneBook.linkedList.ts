@@ -8,17 +8,6 @@ export class PhoneBookLinkedList {
     this.start = null;
   }
 
-  // public addContact(contact: Contact): void {
-  //   const newNode = new ListNode(contact);
-
-  //   if (!this.start) this.start = newNode;
-  //   else {
-  //     let currentNode = this.start;
-  //     while (currentNode.next !== null) currentNode = currentNode.next;
-  //     currentNode.next = newNode;
-  //   }
-  // }
-
   public addContact(contact: Contact): void {
     const newNode = new ListNode(contact);
 
@@ -40,27 +29,34 @@ export class PhoneBookLinkedList {
     currentNode.next = newNode;
   }
 
-  public removeContact(name: string): string | null {
-    if (!this.start) return `Não há contato para remover.`;
+  public removeContact(name: string): void {
+    if (!this.start) {
+      console.log(`Não há contato para remover.`);
+      return;
+    }
+
     if (this.start.contact.name === name) {
       this.start = this.start.next;
-      return `Contato removido com sucesso`;
+      console.log(`Contato ${name} removido com sucesso`);
+      return;
     }
     let currentNode = this.start;
     while (currentNode.next !== null) {
       if (currentNode.next.contact.name === name) {
         currentNode.next = currentNode.next.next;
-        return `Contato removido com sucesso!`;
+        console.log(`Contato ${name} removido com sucesso!`);
+        return;
       }
       currentNode = currentNode.next;
     }
-    return null;
+    return;
   }
 
   public searchContact(name: string): Contact | null | string {
     let currentNode = this.start;
     while (currentNode !== null) {
-      if (currentNode.contact.name === name) return currentNode.contact.name;
+      if (currentNode.contact.name === name)
+        return `${currentNode.contact.name} - ${currentNode.contact.phoneNumber}`;
       currentNode = currentNode.next;
     }
     return null;

@@ -110,22 +110,6 @@ export class PhoneBookBinarySearchTree {
     return this.rotateLeft(treeNode);
   }
 
-  // public balance(root: TreeNode | null): TreeNode | null {
-  //   if (root == null) return null;
-  //   else {
-  //     const getBalanceFactor = this.getBalanceFactor(root);
-  //     if (getBalanceFactor < -1 && this.getBalanceFactor(root.rightNode) <= 0)
-  //       root = this.rotateLeft(root);
-  //     if (getBalanceFactor > 1 && this.getBalanceFactor(root.leftNode) >= 0)
-  //       root = this.rotateRight(root);
-  //     if (getBalanceFactor > 1 && this.getBalanceFactor(root.leftNode) < 0)
-  //       root = this.rotateLeftRight(root);
-  //     if (getBalanceFactor < -1 && this.getBalanceFactor(root.rightNode) > 0)
-  //       root = this.rotateRightLeft(root);
-  //     return root;
-  //   }
-  // }
-
   public balance(root: TreeNode | null): TreeNode | null {
     if (root == null) return null;
     const getBalanceFactor = this.getBalanceFactor(root);
@@ -153,7 +137,10 @@ export class PhoneBookBinarySearchTree {
     }
   }
 
-  public removeContact(root: TreeNode | null, contact: Contact) {
+  public removeContact(
+    root: TreeNode | null,
+    contact: Contact
+  ): TreeNode | null {
     if (root === null) {
       console.log("Contato não encontrado");
       return null;
@@ -161,26 +148,20 @@ export class PhoneBookBinarySearchTree {
       if (!(root instanceof TreeNode)) return null;
 
       if (contact.name === root.contact.name) {
-        if (root.leftNode == null && root.rightNode == null) {
+        if (root.leftNode === null && root.rightNode === null) {
           console.log(`Elemento folha removido: ${contact.name}`);
+          return null;
+        } else if (root.leftNode === null) {
+          return root.rightNode;
+        } else if (root.rightNode === null) {
+          return root.leftNode;
         } else {
-          if (root.leftNode == null && root.rightNode == null) {
-            let aux = root.leftNode;
-            while (aux.rightNode != null) aux = aux.rightNode;
-            root.leftNode = aux;
-            aux = contact;
-            console.log(`Elemento trocado: ${contact.name}`);
-            root.leftNode = this.removeContact(root.leftNode, contact);
-          } else {
-            let aux;
-            if (root.leftNode) {
-              aux = root.leftNode;
-            } else {
-              aux = root.rightNode;
-            }
-            console.log(`Elemento com um filho removido: ${contact.name}`);
-            return aux;
-          }
+          let aux = root.rightNode;
+          while (aux.leftNode !== null) aux = aux.leftNode;
+          root.contact = aux.contact;
+          console.log(`Elemento trocado: ${contact.name}`);
+          root.rightNode = this.removeContact(root.rightNode, aux.contact);
+          return root;
         }
       } else {
         if (contact.name < root.contact.name) {
@@ -198,26 +179,11 @@ export class PhoneBookBinarySearchTree {
       }
     }
   }
+
   public getRoot(): TreeNode | null {
     return this.root;
   }
 
-  // public printBalancedTree(root: TreeNode | null, level: number) {
-  //   if (root !== null) {
-  //     this.printBalancedTree(root.rightNode, level + 1);
-  //     let i: number;
-  //     for (i = 0; i < level; i++) {
-  //       process.stdout.write("\t\t");
-  //     }
-  //     console.log(root.contact.name + ": " + root.contact.phoneNumber);
-  //     this.printBalancedTree(root.leftNode, level + 1);
-  //   } else {
-  //     for (let i = 0; i < level; i++) {
-  //       process.stdout.write("\t\t");
-  //     }
-  //     console.log("-");
-  //   }
-  // }
   public printBalancedTree(root: TreeNode | null, level: number) {
     if (root !== null) {
       if (root.rightNode) {

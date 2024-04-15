@@ -16,9 +16,9 @@ const contacts: Contact[] = [
 ];
 
 contacts.forEach((contact) => phoneBook.addContact(contact));
-console.log(`Phone Book: `);
+console.log(`Phone Book: \n`);
 phoneBook.printLinkedList();
 phoneBook.removeContact("Ester");
-console.log(`Phone Book após remoção:`);
+console.log(`\nPhone Book após remoção:`);
 phoneBook.printLinkedList();
-console.log(`Resultado encontrado: ${phoneBook.searchContact("Beatriz")}`);
+console.log(`\nResultado encontrado: ${phoneBook.searchContact("Beatriz")}`);

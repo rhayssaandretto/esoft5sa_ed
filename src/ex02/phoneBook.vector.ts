@@ -15,7 +15,6 @@ export class PhoneBookVector {
     const indexToRemove = this.contacts.findIndex(
       (contact) => contact.name === name
     );
-    console.log(indexToRemove);
     if (indexToRemove !== -1) {
       this.contacts.splice(indexToRemove, 1);
     } else {
