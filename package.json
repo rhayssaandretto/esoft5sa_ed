@@ -1,5 +1,9 @@
 {
   "devDependencies": {
+<<<<<<< HEAD
+    "@types/node": "^20.12.5"
+=======
     "@types/node": "^20.12.4"
+>>>>>>> 953a35ee0ae7c6c2c057f434097d4c84427786c1
   }
 }
